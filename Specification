@@ -1,0 +1,78 @@
+======================================================================
+Beneshesh: A FIXED-MATRIX BENESH COORDINATE SPECIFICATION (v1.0)
+======================================================================
+
+1. SPATIAL ARCHITECTURE
+-----------------------
+A single "Beat" or "Moment" is a 5x11 character matrix. 
+- Y-Axis (Vertical): 5 lines representing the BMN Staff levels.
+- X-Axis (Horizontal): 11 columns representing the Coronal Plane.
+- Center Column [6]: The Spine/Midline.
+
+2. THE 5-LINE HEIGHT MAP (Y-AXIS)
+---------------------------------
+Line 1: TOP    [Head/Crown]
+Line 2: UPPER  [Shoulders/Elbows]
+Line 3: MIDDLE [Waist/Hands at rest]
+Line 4: LOWER  [Knees]
+Line 5: BASE   [Feet/Floor]
+
+3. THE DEPTH ENCODING (Z-AXIS)
+------------------------------
+The primary character in any cell defines its relationship to the plane.
+- [ - ] LEVEL  : On the body plane.
+- [ o ] FRONT  : In front of the body.
+- [ | ] BEHIND : Behind the body.
+- [ + ] CROSS  : Crossing the midline (X-coordinate shift).
+
+4. NUANCE & ARTICULATION LAYER (The "Modifier")
+-----------------------------------------------
+Each coordinate can be modified to show joint state or orientation.
+In a data-stream, these are appended to the depth marker or 
+separated into a secondary "Nuance Grid."
+
+A. JOINT STATE (Flexion)
+- [ \ ] or [ / ] : Tick (Joint flexed).
+- [ v ] : Deep contraction/fold.
+- [ ! ] : Hyper-extension/Rigid tension.
+
+B. ORIENTATION (Facing)
+- [ < ] : Palm/Face oriented Left.
+- [ > ] : Palm/Face oriented Right.
+- [ ^ ] : Oriented Up/Open.
+- [ u ] : Oriented Down/Grounded.
+
+C. WEIGHT & CONTACT
+- [ # ] : Weight-bearing (Support).
+- [ @ ] : Contact (Touching another body part or object).
+
+5. THE MATRIX BLOCK (EXAMPLE)
+-----------------------------
+A dancer in a deep plié, arms folded in front of the chest.
+
+BEAT 01
+(L1)  . . . . . - . . . . .  // Head level
+(L2)  . . o v . . . o v . .  // Elbows flexed in front
+(L3)  . . . . . . . . . . .  // Hands (implied at L2)
+(L4)  . . . \ . . . / . . .  // Knees bent (Level)
+(L5)  . . # . . . . . # . .  // Feet supporting weight
+
+
+
+6. STRING SERIALIZATION (One-to-One Flat Code)
+----------------------------------------------
+For computational analysis, the 55-cell matrix is flattened into 
+a single string, read left-to-right, top-to-bottom.
+
+Format: [L1_String][L2_String][L3_String][L4_String][L5_String]
+
+A "Neutral Stand" would serialize as:
+".....-..........-.........................-.....-.."
+
+7. CONVERTER RULES FOR ABSTRACTION
+----------------------------------
+- TRANSPOSE: To flip the movement, mirror the index around Column 6.
+- TIME-STRETCH: Repeat the matrix block N times to extend duration.
+- INTERPOLATION: Moving from Matrix A to Matrix B creates a 
+  mathematical vector for the "Path."
+======================================================================
